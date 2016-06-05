@@ -1,6 +1,6 @@
-name: Your New Jekyll Site
-description: Blogging about stuffs
-meta_description: "Your New Jekyll Site, Blogging about stuffs"
+name: Diary of a Kaggler
+description: Changing the World, One Classifier at a Time
+meta_description: "Changing the World, One Classifier at a Time"
 
 aboutPage: true
 
@@ -9,15 +9,15 @@ highlighter: pygments
 
 paginate: 20
 baseurl: /
-domain_name: 'http://yourblog-domain.com'
+domain_name: 'http://www.diaryofakaggler.com'
 google_analytics: 'UA-XXXXXXXX-X'
 disqus: false
 disqus_shortname: 'your-disqus-shortname'
 
 # Details for the RSS feed generator
-url:            'http://your-blog-url.example.com'
-author:         'Your Name'
-authorTwitter:  'YourTwitterUsername'
+url:            'http://www.diaryofakaggler.com'
+author:         'Maurice Berk'
+authorTwitter:  '@MauriceBerk'
 
 permalink:       /:year/:title/
 
@@ -40,3 +40,5 @@ defaults:
             type: drafts
         values:
             layout: post
+
+gems: [jekyll-paginate]
