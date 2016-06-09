@@ -121,18 +121,18 @@ Mode <- function(x)
 [Hadley Wickham](http://hadley.nz/), really is a fantastic package. In fact,
 Hadley is responsible for some incredible developments in R
 and you'd be well advised to check out his other work. In this script I only
-use {% ihighlight r %}plyr{% endihighlight %} to simplify processing a list
-and producing a data frame via the {% ihighlight r %}ldply{% endihighlight %}
+use `plyr` to simplify processing a list
+and producing a data frame via the `ldply`
 function but I use it extensively in most of my other projects. The
-{% ihighlight r %}Mode{% endihighlight %} function defined here was taken from
+`Mode` function defined here was taken from
 the
 [benchmark script](https://www.kaggle.com/wcukierski/integer-sequence-learning/mode-benchmark).
 As pointed out in that script, the function is named
-{% ihighlight r %}Mode{% endihighlight %} rather than
-{% ihighlight r %}mode{% endihighlight %} as the latter is already a function in R.
+`Mode` rather than
+`mode` as the latter is already a function in R.
 
 I'll next discuss the main function of my script, called
-{% ihighlight r %}fitModel{% endihighlight %}, which I'll break into parts
+`fitModel`, which I'll break into parts
 given its length.
 
 
@@ -149,15 +149,15 @@ fitModel <- function(sequence,numberOfPoints,forSubmission=FALSE,modeFallbackThr
 {% endhighlight %}
 
 The function is designed to be run in one of two ways, specified via the
-{% ihighlight r %}forSubmission{% endihighlight %} argument. When this is
-{% ihighlight r %}TRUE{% endihighlight %}, the function will return a vector
+`forSubmission` argument. When this is
+`TRUE`, the function will return a vector
 of predictions which are suitable for submitting to Kaggle. When set to
-{% ihighlight r %}FALSE{% endihighlight %}, the function will return a data
+`FALSE`, the function will return a data
 frame with some more detailed diagnostic information based on an out of
 sample test constructed by removing the last element of the sequence.
 
-The {% ihighlight r %}numberOfPoints{% endihighlight %} argument specifies how many points to use to predict the
-next element in the sequence. For example, if {% ihighlight r %}numberOfPoints=2{% endihighlight %} then the
+The `numberOfPoints` argument specifies how many points to use to predict the
+next element in the sequence. For example, if `numberOfPoints=2` then the
 \\((n-2)\\)th and \\((n-1)\\)th element are used to predict the \\(n\\)th
 element.
 
@@ -179,19 +179,19 @@ element.
 {% endhighlight %}
 
 To fit the model the sequence needs to be at least
-{% ihighlight r %}numberOfPoints+1{% endihighlight %} long,
-{% ihighlight r %}numberOfPoints{% endihighlight %} for the predictors and
-{% ihighlight r %}1{% endihighlight %} for the response. If the sequence is
+`numberOfPoints+1` long,
+`numberOfPoints` for the predictors and
+`1` for the response. If the sequence is
 empty, which may be the case when the raw sequence is only a single element
 and that's been removed to form the out of sample test, then we can't make a
-prediction and it gets set to {% ihighlight r %}NA{% endihighlight %}. If
+prediction and it gets set to `NA`. If
 there is at least one element then a simple prediction is made by taking the
 last element of the sequence. In either case, we set
-{% ihighlight r %}mae{% endihighlight %} to 
-{% ihighlight r %}NA{% endihighlight %}. This variable, standing for Maximum
+`mae` to 
+`NA`. This variable, standing for Maximum
 Absolute Error, is used to indicate how well the linear model fits the
 sequence. As there is no linear model for a sequence of this length, we set
-it to {% ihighlight r %}NA{% endihighlight %}.
+it to `NA`.
 
 {% highlight r %}
   else
@@ -206,19 +206,19 @@ it to {% ihighlight r %}NA{% endihighlight %}.
 {% endhighlight %}
 
 Now we come to the main part of the function. We use the
-{% ihighlight r %}lm{% endihighlight %} function to fit a linear model,
+`lm` function to fit a linear model,
 providing a formula describing the model and a data frame that contains the
 variables. Note how the formula is specified; normally you'd write out your
-predictors on the right hand side of {% ihighlight r %}~{% endihighlight %}
-such as in {% ihighlight r %}lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings){% endihighlight %}.
+predictors on the right hand side of `~`
+such as in `lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)`.
 However in this case the number of predictors is determined by the 
-{% ihighlight r %}numberOfPoints{% endihighlight %} parameter and so we cannot
+`numberOfPoints` parameter and so we cannot
 write out the formula in advance (we must also construct the data frame
 containing the data for fitting the model on the fly in the
-{% ihighlight r %}for{% endihighlight %} loop). By using a
-{% ihighlight r %}.{% endihighlight %} on the right hand side of the formula,
+`for` loop). By using a
+`.` on the right hand side of the formula,
 we are specifying that all variables in the data frame given by
-{% ihighlight r %}df{% endihighlight %} should be included in the model.
+`df` should be included in the model.
 
 {% highlight r %}
     mae <- max(abs(fit$residuals))
@@ -262,15 +262,15 @@ After fitting the model, we calculate the Maximum Absolute Error (MAE) as in
 order to quantify how well it fits the data. Note that this is done in sample
 as the goal is to decide whether we want to use the linear model to make our
 prediction or try another method.
-{% ihighlight r %}modeFallbackThreshold{% endihighlight %} gives the value of
+`modeFallbackThreshold` gives the value of
 the MAE above which the linear model is rejected in favour of the mode of the
-sequence. If the {% ihighlight r %}forSubmission{% endihighlight %} argument
-is {% ihighlight r %}FALSE{% endihighlight %}, there's no need to check the
+sequence. If the `forSubmission` argument
+is `FALSE`, there's no need to check the
 threshold as the function will return both the linear model prediction and the
 mode and the relative merits of the two can be assessed with further analysis.
 
-An important step is to {% ihighlight r %}round{% endihighlight %} the
-prediction before returning. {% ihighlight r %}lm{% endihighlight %} has no
+An important step is to `round` the
+prediction before returning. `lm` has no
 concept of operating only with integers and will produce coefficients and
 predictions which are decimals. This may be an interesting avenue to explore
 later but it turns out that ignoring the problem and just rounding the model
@@ -286,13 +286,13 @@ evaluateResults <- function(results,modeFallbackThreshold)
 {% endhighlight %}
 
 Next we come to a couple of helper functions. First is
-{% ihighlight r %}evaluateResults{% endihighlight %} which is intended to be
-used with the output from {% ihighlight r %}fitModel{% endihighlight %} when
-{% ihighlight r %}forSubmission{% endihighlight %} was set to
-{% ihighlight r %}FALSE{% endihighlight %}, calculating the accuracy on the
+`evaluateResults` which is intended to be
+used with the output from `fitModel` when
+`forSubmission` was set to
+`FALSE`, calculating the accuracy on the
 last element of the sequence that was held back for the out of sample test.
 The function takes an additional argument,
-{% ihighlight r %}modeFallbackThreshold{% endihighlight %}, which sets the
+`modeFallbackThreshold`, which sets the
 value of the MAE at which the mode of the sequence is used as the prediction
 instead of the linear model. In this way, given a set of results, the
 threshold can be optimised via repeated calls to this function and finding
@@ -323,15 +323,15 @@ generateSubmission <- function(filename,numberOfPoints,modeFallbackThreshold,ver
 {% endhighlight %}
 
 The second helper function is
-{% ihighlight r %}generateSubmission{% endihighlight %} which, as the name
+`generateSubmission` which, as the name
 suggests, simplifies the process of generating a CSV file that can be
 uploaded to Kaggle. It's more or less a wrapper that calls
-{% ihighlight r %}fitModel{% endihighlight %} for every sequence in the data
+`fitModel` for every sequence in the data
 set. It's worth mentioning here that I'd normally use one of the
-{% ihighlight r %}plyr{% endihighlight %} functions which all take a
-{% ihighlight r %}.progress{% endihighlight %} parameter which displays a
-text ({% ihighlight r %}.progress="text"{% endihighlight %}) or
-visual ({% ihighlight r %}.progress="tk"{% endihighlight %}) progress bar
+`plyr` functions which all take a
+`.progress` parameter which displays a
+text (`.progress="text"`) or
+visual (`.progress="tk"`) progress bar
 showing you how far through the processing it is. I found that this didn't
 really work with the Kaggle scripts system. Obviously you have to use a text
 progress bar as there is no desktop environment but rather than the bar
@@ -356,11 +356,11 @@ displayed on a new line, like this:
 
 I guess this is down to the way the output of the script environment is being
 captured. Regardless, it's simple enough to just use the built in
-{% ihighlight r %}sapply{% endihighlight %} and add some output of our own
+`sapply` and add some output of our own
 periodically (as I've set it up here, every 1,000 sequences).
 
 It's also worth highlighting the need to call
-{% ihighlight r %}options(scipen=999){% endihighlight %} before writing the
+`options(scipen=999)` before writing the
 CSV file otherwise some of the large values will be output in scientific
 notation and you'd lose some of the digits.
 
@@ -374,7 +374,7 @@ generateSubmission("linearPrevious10WithModeFallback.csv",
 {% endhighlight %}
 
 Note that when using Kaggle scripts, the files can be found in the
-{% ihighlight r %}"../input/"{% endihighlight %}. This has tripped me up a
+`"../input/"`. This has tripped me up a
 few times where I've taken a script I've developed locally, pasted it into
 the Kaggle system and forgotten to change the path. Under these
 circumstances the script will immediately fail as it cannot find the input
@@ -423,13 +423,13 @@ made here both in terms of efficiency, so that more parameter values can be
 tried, and automation so that the optimal combination can be found withoout
 having to specify the grid of values to search over in advance.
 
-A quick comment on the use of a {% ihighlight r %}for{% endihighlight %}
+A quick comment on the use of a `for`
 loop here. Many people are quick to argue that you should avoid
-{% ihighlight r %}for{% endihighlight %} loops in R wherever possible and,
+`for` loops in R wherever possible and,
 believe me, I used to argue it more than most. However it turns out that this
 advice is not really true, especially when slavishly replacing the loops with
-{% ihighlight r %}*apply{% endihighlight %} impacts readability. For more
-background on why {% ihighlight r %}for{% endihighlight %} loops are OK check
+`*apply` impacts readability. For more
+background on why `for` loops are OK check
 out this
 [Stack Overflow answer](http://stackoverflow.com/questions/7142767/why-are-loops-slow-in-r/7142982#7142982)
 and the [article on page 46 of the May 2008 issue of R news](https://www.r-project.org/doc/Rnews/Rnews_2008-1.pdf).
