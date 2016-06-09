@@ -60,7 +60,11 @@ playgrounds but you do have to question whether it's even appropriate to have
 a public leaderboard for them.
 
 The goal of this particular competition is, given a sequence of integers such
-as $$1, 1, 2, 3, 5, 8, 13, 21, 34, 55$$ to predict the next element in the sequence
+as
+
+$$1, 1, 2, 3, 5, 8, 13, 21, 34, 55$$
+
+to predict the next element in the sequence
 (in this case this is the
 [Fibonacci Sequence](https://en.wikipedia.org/wiki/Fibonacci_number) and the
 answer is 89). You're provided with 113,845 sequences from the
