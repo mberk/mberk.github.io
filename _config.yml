@@ -10,7 +10,7 @@ highlighter: pygments
 paginate: 20
 baseurl: /
 domain_name: 'http://www.diaryofakaggler.com'
-google_analytics: 'UA-XXXXXXXX-X'
+google_analytics: 'UA-79000098-1'
 disqus: true
 disqus_shortname: 'diaryofakaggler'
 
