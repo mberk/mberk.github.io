@@ -4,6 +4,8 @@ date:   2016-06-08 10:00:00
 description: Hello World
 ---
 
+_Part two of this series is available [here]({% post_url 2016-06-26-integer-sequence-learning-moving-up-the-leaderboard %})._
+
 Let's get something out of the way up front. I'm not really in a position to
 teach you how to win Kaggle competitions, as a cursory glance at my
 [profile](https://www.kaggle.com/endintears) should make abundantly clear. I
@@ -67,15 +69,10 @@ $$1, 1, 2, 3, 5, 8, 13, 21, 34, 55$$
 to predict the next element in the sequence
 (in this case this is the
 [Fibonacci Sequence](https://en.wikipedia.org/wiki/Fibonacci_number) and the
-answer is 89). You're provided with 113,845 sequences from the
-OEIS and the only difference between the training and test
-set is that the test set has the final element of each sequence removed, this
-being the prediction target. This explains why it would be easy for someone to
-accidentally access data they shouldn't while building their model. In the
-extreme case you could just use the training set to achieve 100% accuracy on
-the leaderboard. For a competition like this one, I think it's safest to simply
-never touch the provided training set as you can always remove elements from
-the test set sequences to perform your out of sample predictions.
+answer is 89). You're provided with 227,690 sequences from the
+OEIS, split 50-50 into a training and test set. For the training set, you're
+given the entire sequence and for the test set the final element has been
+removed, which is the target you're trying to predict.
 
 There hasn't been a lot of discussion on the forums about how to approach this
 problem although I did reply to a post where I highlighted the
@@ -440,3 +437,6 @@ and the [article on page 46 of the May 2008 issue of R news](https://www.r-proje
 
 I hope you've found this walk through useful. If you have any questions or
 comments, either on this post or the site in general, please leave them below.
+
+When you're ready, take a look at the [next post in this series]({% post_url 2016-06-26-integer-sequence-learning-moving-up-the-leaderboard %})
+where I discuss some improvements to the above approach.
