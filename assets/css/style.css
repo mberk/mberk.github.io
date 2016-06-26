@@ -183,7 +183,7 @@ a,
 }
 
 ul 	{ margin:0; padding:0; margin-left:15px; }
-li	{ list-style-type:circle; list-style-position:inside; }
+li	{ list-style-position:inside; }
 
 /* Line Height */
 #post-body, p { line-height:1.7; text-align: justify; }
